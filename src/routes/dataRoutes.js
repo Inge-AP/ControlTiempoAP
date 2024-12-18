@@ -1,14 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { crearJson, convertXml, ordenDeDatos, guardaenBD } = require('../controllers/dataController');
+const  convertXml  = require('../controllers/dataController');
+const procesados = require('../controllers/dataController');
 
-router.post('/procesar-XML', convertXml);
+router.post('/procesar-XML', convertXml.convertXml);
 
-router.post('/crear-json', crearJson);
-// Ruta para procesar los datos del JSON
-router.post('/procesar-json', ordenDeDatos);
-
-// Ruta para guardar los datos procesados en la base de datos
-router.post('/guardar-datos', guardaenBD);
+router.get('/traer-datos/:id', procesados.traerdatos);
 
 module.exports = router;

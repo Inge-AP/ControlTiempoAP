@@ -1,11 +1,11 @@
-const {proccesXML, createJSONFile} = require('../services/manejoDeDatos')
-const {enviaraBD, ordenarDatos} = require('../services/manejo');
+const proccesXML = require('../services/manejoDeDatos')
+const procesadoService = require('../services/manejoDeDatos')
 
 
 // Controlador para convertir XML a JSON
 const convertXml = async (req, res) => {
     try {
-        const { xml } = req.body;
+        const { xml } = req.body.xml;
         if (!xml) {
             return res.status(400).json({ success: false, message: 'XML data is required' });
         }
@@ -17,49 +17,19 @@ const convertXml = async (req, res) => {
 };
 
 // Controlador para realizar cálculos
-const crearJson = (req, res) => {
+async function traerdatos(req, res) {
     try {
-        const { jsonData } = req.body;
-        if (!jsonData) {
-            return res.status(400).json({ success: false, message: 'JSON data is required' });
+        const id = req.params.id;
+        const data = await procesadoService.getDataById(id);
+        if (!data) {
+            return res.status(404).json({ message: 'Registro no encontrado', data: data });
         }
-        const filePath = createJSONFile(jsonData);
-        res.status(200).json({ success: true, result });
+        res.json(data);
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.status(500).json({message: 'Error al obtener los datos', error: error.message});
     }
 };
 
-const ordenDeDatos = async (req, res) => {
-    try {
-        const { filePath } = req.body;
-        if (!filePath) {
-            return res.status(400).json({ success: false, message: 'La ruta del archivo es requerida' });
-        }
-        const datosProcesados = ordenarDatos(filePath);
-        res.status(200).json({ success: true, datosProcesados });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
-};
 
-// Controlador para realizar cálculos
-const guardaenBD = (req, res) => {
-    try {
-        const { datosProcesados } = req.body;
-        if (!datosProcesados) {
-            return res.status(400).json({ success: false, message: 'JSON data is required' });
-        }
-        enviaraBD(datosProcesados);
-        res.status(200).json({ success: true, result });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
-};
 
-module.exports = {
-    convertXml,
-    crearJson,
-    ordenDeDatos,
-    guardaenBD
-};
+module.exports = {convertXml, traerdatos};
