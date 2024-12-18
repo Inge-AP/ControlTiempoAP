@@ -7,6 +7,9 @@ async function getRecordById(ID) {
     return rows;
 }
 
-// Puedes añadir más funciones para actualizar y eliminar registros según tus necesidades
+async function getRecord() {
+    const [rows] = await db.execute('SELECT * FROM procesados');
+    return rows;
+}
 
-module.exports = {getRecordById };
+module.exports = {getRecordById, getRecord};

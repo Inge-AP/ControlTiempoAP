@@ -30,6 +30,15 @@ async function traerdatos(req, res) {
     }
 };
 
+async function mostrarTabla(req, res) {
+    try {
+        const data = await procesadoService.getData();
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({message: 'Error al obtener los datos', error: error.message});
+    }
+};
 
 
-module.exports = {convertXml, traerdatos};
+
+module.exports = {convertXml, traerdatos, mostrarTabla};

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Convertir XML a JSON</title>
+    <script src="src\services\manejoDeDatos.js"></script>
     <style>
         body {
             background-color: midnightblue;
@@ -25,8 +26,7 @@
 <body>
     <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"> Arrastra y suelta tu archivo aqui</div>
     <input type="file" id="fileInput">
-    <button id="convertBtn" onclick="convertToJSON()">Convertir a JSON</button>
-    <script src="manejoDeDatos.js"></script>
-    <script src="manejo.js"></script>
+    <button id="convertBtn" onclick="proccesXML()">Convertir a JSON</button>
+
 </body>
 </html>

@@ -4,13 +4,14 @@ const{ DOMParser } = require('xmldom')
 const backendUrl = 'http://localhost:3000/api/guardar-datos';
 const procesadoModel = require('../models/modelo')
 
-function proccesXML(callback) {
+function proccesXML() {
     const fileInput = document.getElementById('fileInput');
     const file = fileInput.files[0];
     const reader = new FileReader();
 
     reader.onload = function(event) {
         const parser = new DOMParser();
+        console.log(parser);
         const xml = parser.parseFromString(event.target.result, 'application/xml');
         const rows = xml.getElementsByTagName('Row');
         const data = [];
@@ -151,7 +152,11 @@ function enviaraBD(data){
 }
 
 async function getDataById(ID) {
-    return await procesadoModel.getRecordById(ID)
+    return await procesadoModel.getRecordById(ID);
 }
 
-module.exports = {proccesXML, getDataById};
+async function getData() {
+    return await procesadoModel.getRecord();
+}
+
+module.exports = {proccesXML, getDataById, getData};
