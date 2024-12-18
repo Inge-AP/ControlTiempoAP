@@ -4,7 +4,7 @@
   "main": "manejo.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently \"node server.js\" \"json-server --watch db.json --port 4000\""
+    "start": "node src/server.js"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +15,9 @@
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "json-server": "^1.0.0-beta.3",
-    "mysql2": "^3.11.5"
+    "mysql2": "^3.11.5",
+    "node-fetch": "^3.3.2",
+    "xmldom": "^0.6.0"
   },
   "devDependencies": {
     "concurrently": "^9.1.0"

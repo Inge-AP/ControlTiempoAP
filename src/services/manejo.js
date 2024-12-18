@@ -1,28 +1,19 @@
 const apiUrl = 'http://localhost:4000/records'; // Reemplaza esto con tu endpoint
 const backendUrl = 'http://localhost:3000/api/guardar-datos';
 
-fetch(apiUrl).then(response => response.json()).then(data => {
-    const dataDiv = document.getElementById('data');
-    //const rowUl = document.createElement('ul')
-    data.forEach(row => {
-        const rowDiv = document.createElement('div');
-        rowDiv.textContent = `Name: ${row.Name}, Open Time: ${row['Open_Time']}`;
-        dataDiv.appendChild(rowDiv);
-    });
-    document.getElementById("Cargar").addEventListener("click", function() {
-        enviaraBD(data);
-    });
-}).catch(error => console.error('Error al obtener los datos:', error));
+function sendJSON(){
+    fetch(apiUrl).then(response => response.json()).then(data => {
+    }).catch(error => console.error('Error al obtener los datos:', error));
+}
+
 
 function enviaraBD(data){
-    const dataf = filtrarProcesar(data);
-    const datosp = procesarDatos(dataf);
     fetch(backendUrl, {
         method: 'POST',
         headers: {
             'content-Type': 'application/json'
         },
-        body: JSON.stringify(datosp)
+        body: JSON.stringify(data)
     })
     .then(response => {
         if (!response.ok) {
@@ -38,6 +29,11 @@ function enviaraBD(data){
     });
 }
 
+function ordenarDatos(data) {
+    const dataf = filtrarProcesar(data);
+    const datosp = procesarDatos(dataf);
+    return datosp;
+}
 function diferenciaConMoment(entrada, salida){
     const duracion = moment.duration(salida.diff(entrada))
     duracion.subtract(9,'hours');
@@ -52,7 +48,6 @@ function diferenciaConMoment(entrada, salida){
     if(horas==0 && minutos >= 0){
         minutos = 0;
     }
-
     console.log(horas,":",minutos);
     console.log("siguiente");
     //const segundos = duracion.seconds();
