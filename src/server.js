@@ -13,7 +13,7 @@ app.use(cors(
 // Middleware para procesar JSON
 app.use(bodyParser.json());
 app.use(express.json());
-app.use('api/data', dataRoutes);
+app.use('/api/data', dataRoutes);
 
 // Configuración de la base de datos
 // const db = mysql.createConnection({

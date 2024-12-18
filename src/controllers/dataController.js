@@ -32,11 +32,11 @@ const crearJson = (req, res) => {
 
 const ordenDeDatos = async (req, res) => {
     try {
-        const { JsonFilePath } = req.body;
-        if (!JsonFilePath) {
+        const { filePath } = req.body;
+        if (!filePath) {
             return res.status(400).json({ success: false, message: 'La ruta del archivo es requerida' });
         }
-        const datosProcesados = ordenarDatos(JsonFilePath);
+        const datosProcesados = ordenarDatos(filePath);
         res.status(200).json({ success: true, datosProcesados });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
