@@ -26,12 +26,9 @@ const saveData = async (req, res) => {
         const query ='INSERT INTO procesados (ID, Name, Entrada, Salida, Fecha, Extra) VALUES (?, ?, ?, ?, ?, ?)'
         datos.forEach(dato => {
             const {ID, Name, Entrada, Salida, Fecha, Extra} = dato;
-            console.log("entrada",Entrada);
-
-            // const opentimeEntrada = new Date(Entrada).toISOString().slice(0,19).repeat('T', ' ');
-            // const opentimeSalida = new Date(Salida).toISOString().slice(0,19).repeat('T', ' ');
-            // console.log("ews",opentimeEntrada);
-           db.query(query, [ID, Name, Entrada, Salida, Fecha, Extra], (err, result) => {
+            const opentimeEntrada = new Date(Entrada).toISOString().slice(0,19).replace('T', ' ');
+            const opentimeSalida = new Date(Salida).toISOString().slice(0,19).replace('T', ' ');
+           db.query(query, [ID, Name, opentimeEntrada, opentimeSalida, Fecha, Extra], (err, result) => {
                 if (err){
                     console.error('Error al insertar datos', err);
                     return res.status(500).send({ error: 'Error al guardar datos'});

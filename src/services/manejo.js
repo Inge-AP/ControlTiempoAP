@@ -44,12 +44,9 @@ function diferenciaConMoment(entrada, salida){
     }
     const horas = duracion.hours();
     var minutos = duracion.minutes();
-    console.log(horas,":",minutos);
     if(horas==0 && minutos >= 0){
         minutos = 0;
     }
-    console.log(horas,":",minutos);
-    console.log("siguiente");
     //const segundos = duracion.seconds();
     return {horas, minutos}
 }
@@ -80,7 +77,6 @@ function sinHuella(primero){
 }
 
 function procesarDatos(data){
-    console.log("data",data);
     const agrupados = {};
     data.forEach(item => {
         const clave = `${item.Fecha}-${item.ID}`;

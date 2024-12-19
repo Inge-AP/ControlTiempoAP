@@ -9,7 +9,7 @@ const db = require('./config/database');
 
 
 app.use(cors(
-    //{origin: 'http://192.168.88.154:8080'}
+    //{origin: 'http://192.168.88.37:8080'}
 ));
 // Middleware para procesar JSON
 app.use(bodyParser.json());

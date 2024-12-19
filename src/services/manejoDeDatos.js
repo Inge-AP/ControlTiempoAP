@@ -85,7 +85,8 @@ function procesarDatos(data){
         const grupo = agrupados[clave];
         const primero = grupo[0];
         const ultimo = grupo.length > 1 ? grupo[grupo.length - 1]:  sinHuella(primero);
-        const ext = diferenciaConMoment(primero.Open_Time, ultimo.Open_Time);
+        var ext = diferenciaConMoment(primero.Open_Time, ultimo.Open_Time);
+        ext = formatoHora(ext);
         // Unir los registros en uno solo
         const procesado = {
             ID: primero.ID,
@@ -99,7 +100,11 @@ function procesarDatos(data){
     }
     return datosProcesados;
 }
-
+function formatoHora(tiempo){
+    const horas = tiempo.horas;
+    const minutos = Math.abs(tiempo.minutos);
+    return `${horas}:${minutos < 10 ? '0' : ''}${minutos}`
+}
 function sinHuella(primero){
     const ultimo = { ...primero};
     const adjustedTime = moment(primero.Open_Time).hours(17).minutes(0).seconds(0).milliseconds(0);
