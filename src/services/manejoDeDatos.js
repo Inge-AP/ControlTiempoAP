@@ -1,8 +1,6 @@
-const { FILE } = require('dns');
-const fs = require('fs');
-const{ DOMParser } = require('xmldom')
-const backendUrl = 'http://localhost:3000/api/guardar-datos';
-const procesadoModel = require('../models/modelo')
+const backendUrl = 'http://localhost:3000/api/data/guardar-datos';
+const procesadoModel = require('../models/modelo');
+var moment = require('moment'); 
 
 function proccesXML() {
     const fileInput = document.getElementById('fileInput');
@@ -11,7 +9,6 @@ function proccesXML() {
 
     reader.onload = function(event) {
         const parser = new DOMParser();
-        console.log(parser);
         const xml = parser.parseFromString(event.target.result, 'application/xml');
         const rows = xml.getElementsByTagName('Row');
         const data = [];
@@ -40,9 +37,11 @@ function proccesXML() {
             } else {
                 jsonString += '\n';
             }
+            
         });
+        jsonString += '     ]\n}'
         const jsonObject = JSON.parse(jsonString);
-        const result = ordenarDatos(jsonObject);
+        const result = ordenarDatos(jsonObject.records);
         enviaraBD(result);
     }
     reader.readAsText(file);
@@ -73,7 +72,6 @@ function organizarTiempoMoment(data){
 }
 
 function procesarDatos(data){
-    console.log("data",data);
     const agrupados = {};
     data.forEach(item => {
         const clave = `${item.Fecha}-${item.ID}`;
@@ -95,7 +93,7 @@ function procesarDatos(data){
             Entrada: primero.Open_Time,
             Salida: ultimo.Open_Time, // Puede ser nulo si solo hay un registro
             Fecha: primero.Fecha,
-            Extras: ext
+            Extra: ext
         };
         datosProcesados.push(procesado);
     }
@@ -119,12 +117,9 @@ function diferenciaConMoment(entrada, salida){
     }
     const horas = duracion.hours();
     var minutos = duracion.minutes();
-    console.log(horas,":",minutos);
     if(horas==0 && minutos >= 0){
         minutos = 0;
     }
-    console.log(horas,":",minutos);
-    console.log("siguiente");
     //const segundos = duracion.seconds();
     return {horas, minutos}
 }
